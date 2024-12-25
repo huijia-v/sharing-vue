@@ -9,8 +9,8 @@
 				</div>
 				<div class="my-2 text-sm text-gray-500 flex justify-between flex-wrap">
 					<div>
-						此页可以维护您的存储源信息，可以拖动交换存储源之间的顺序. 配置示例可参考：
-						<a class="link" target="_blank" href="https://docs.zfile.vip/example">ZFile 存储源配置文档</a>
+						此页可以维护您的存储源信息，可以拖动交换存储源之间的顺序.
+<!--						<a class="link" target="_blank" href="https://docs.zfile.vip/example">ZFile 存储源配置文档</a>-->
 					</div>
 					<div>
 						<el-input placeholder="请输入搜索内容" v-model="searchKey" :prefix-icon="Search"></el-input>

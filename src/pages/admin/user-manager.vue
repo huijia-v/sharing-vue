@@ -97,22 +97,22 @@
 								删除
 							</el-button>
 						</el-col>
-						<!--						<el-col :span="1.5">-->
-						<!--							<el-dropdown class="mt-[1px]">-->
-						<!--								<el-button plain type="info">-->
-						<!--									更多-->
-						<!--&lt;!&ndash;									<el-icon class="el-icon&#45;&#45;right">&ndash;&gt;-->
-						<!--&lt;!&ndash;										<arrow-down />&ndash;&gt;-->
-						<!--&lt;!&ndash;									</el-icon>&ndash;&gt;-->
-						<!--								</el-button>-->
-						<!--							</el-dropdown>-->
-						<!--						</el-col>-->
-						<!--						<right-toolbar-->
-						<!--							v-model:showSearch="showSearch"-->
-						<!--							:columns="columns"-->
-						<!--							:search="true"-->
-						<!--							@queryTable="getList"-->
-						<!--						></right-toolbar>-->
+												<el-col :span="1.5">
+													<el-dropdown class="mt-[1px]">
+														<el-button plain type="info">
+															更多
+															<el-icon class="el-icon--right">
+																<arrow-down/>
+															</el-icon>
+														</el-button>
+													</el-dropdown>
+												</el-col>
+												<right-toolbar
+													v-model:showSearch="showSearch"
+													:columns="columns"
+													:search="true"
+													@queryTable="getList"
+												></right-toolbar>
 					</el-row>
 				</template>
 
@@ -439,7 +439,6 @@ const dateRange = ref<[ep.DateModelType, ep.DateModelType]>(['', ''])
 const getList = async () => {
 	loading.value = true
 	const res = await listUser(addDateRange(queryParams.value, dateRange.value))
-	console.log('userList::', res)
 	loading.value = false
 	userList.value = res.data.rows
 	total.value = res.data.total
@@ -613,7 +612,9 @@ const handleUpdate = async (row?: UserForm) => {
 	dialog.visible = true
 	dialog.title = '修改用户'
 	Object.assign(form.value, data.user)
-	roleOptions.value = data.roles
+	console.log('data.roles', data.roles)
+	roleOptions.value = data.roles;
+	console.log('roleOptions', roleOptions.value)
 	form.value.postIds = data.postIds
 	form.value.roleIds = data.roleIds
 	form.value.password = ''

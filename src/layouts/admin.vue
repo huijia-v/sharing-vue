@@ -113,13 +113,32 @@
 							用户管理
 						</router-link>
 
-						<router-link to="/admin/role-manager"
-												 :class="currentActive === '/admin/role-manager' ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+						<router-link to="/admin/role/role-list"
+												 :class="currentActive === '/admin/role/role-list' ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
 												 class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
 							<el-icon size="18px">
 								<i-ep-setting class="mr-1"/>
 							</el-icon>
 							角色管理
+						</router-link>
+
+						<router-link to="/admin/menu/menu-list"
+												 :class="currentActive === '/admin/menu/menu-list' ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+												 class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+							<el-icon size="18px">
+								<i-ep-setting class="mr-1"/>
+							</el-icon>
+							菜单权限列表
+						</router-link>
+
+
+						<router-link to="/admin/dict/dict-list"
+												 :class="currentActive === '/admin/dict/dict-list' ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+												 class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+							<el-icon size="18px">
+								<i-ep-setting class="mr-1"/>
+							</el-icon>
+							字典列表
 						</router-link>
 
             <div @click="logDownload"

@@ -159,3 +159,20 @@ export const getRole = (roleId) => {
 		method: 'get',
 	})
 }
+
+// 查询授权角色
+export function getAuthRole(userId) {
+	return axios({
+		url: '/admin/system/user/authRole/' + userId,
+		method: 'get'
+	})
+}
+
+// 保存授权角色
+export function updateAuthRole(data) {
+	return axios({
+		url: '/admin/system/user/authRole',
+		method: 'put',
+		data: data
+	})
+}
