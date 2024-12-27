@@ -43,7 +43,24 @@
 				</el-option>
 			</el-select>
 		</z-form-item>
-
+		<z-form-item label="是否公有" prop="visable">
+			<el-select
+				v-model="storageItem.visable"
+				placeholder="是否公有"
+				clearable
+				style="width: 240px"
+			>
+				<el-option
+					v-for="dict in storage_normal_disable"
+					:key="dict.value"
+					:label="dict.label"
+					:value="dict.value"
+				/>
+			</el-select>
+			<template #tips>
+				开启公共则全局可见，私有仅自己可见
+			</template>
+		</z-form-item>
 		<z-form-item label="是否启用">
 			<el-switch v-model="storageItem.enable"/>
 			<template #tips>
@@ -274,7 +291,9 @@ import {loadS3BucketsReq} from "~/api/s3";
 import { loadGDDrivesReq } from "~/api/gd";
 import { loadConfigReq } from "~/api/admin-setting";
 import { toClipboard } from "@soerenmartius/vue3-clipboard";
-
+import {useDict} from '~/utils/dict'
+const { storage_normal_disable } = useDict('storage_normal_disable')
+console.log('storage_normal_disable', storage_normal_disable)
 const systemConfig = ref();
 
 let router = useRouter();
@@ -321,6 +340,7 @@ let useInitData = () => {
 		type: '',
 		remark: '',
 		alias: '',
+		visable: '',
 		defaultSwitchToImgMode: false,
 		enable: true,
 		enableFileOperator: true,

@@ -1,4 +1,3 @@
-
 import { RoleVO } from '@/api/system/role/types';
 
 
@@ -83,6 +82,7 @@ export interface UserForm {
   remark?: string;
   postIds: string[];
   roleIds: string[];
+  avatar?: string;
 }
 
 export interface UserInfoVO {
@@ -116,4 +116,5 @@ export interface UserForm {
 	remark?: string
 	postIds: string[]
 	roleIds: string[]
+	avatar?: string
 }

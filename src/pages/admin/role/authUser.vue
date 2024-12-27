@@ -4,6 +4,15 @@ import SelectUser from '~/pages/admin/role/selectUser.vue'
 import { parseTime } from '../../../utils/common'
 import type * as ep from 'element-plus';
 import { useDict } from '~/utils/dict'
+import {
+	Delete,
+	Close,
+	CircleClose,
+	Search,
+	Refresh,
+	Plus,
+	CircleCheck,
+} from '@element-plus/icons-vue'
 const selectRef = ref<InstanceType<typeof SelectUser>>()
 const queryRef = ref<InstanceType<typeof ep.ElForm>>()
 const route = useRoute()
@@ -64,8 +73,8 @@ function cancelAuthUser(row) {
 	ElMessageBox.confirm('确认要取消该用户"' + row.userName + '"角色吗？').then(function () {
 		return authUserCancel({ userId: row.userId, roleId: queryParams.roleId });
 	}).then(() => {
-		getList();
-		ElMessage.success("取消授权成功");
+			getList()
+			ElMessage.success('取消授权成功')
 	}).catch(() => {});
 }
 /** 批量取消授权按钮操作 */
@@ -107,8 +116,8 @@ getList();
 					/>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-					<el-button icon="Refresh" @click="resetQuery">重置</el-button>
+					<el-button type="primary" :icon="Search" @click="handleQuery">搜索</el-button>
+					<el-button :icon="Refresh" @click="resetQuery">重置</el-button>
 				</el-form-item>
 			</el-form>
 
@@ -117,7 +126,7 @@ getList();
 					<el-button
 						type="primary"
 						plain
-						icon="Plus"
+						:icon="Plus"
 						@click="openSelectUser"
 						v-hasPermi="['system:role:add']"
 					>添加用户</el-button>
@@ -126,7 +135,7 @@ getList();
 					<el-button
 						type="danger"
 						plain
-						icon="CircleClose"
+						:icon="CircleClose"
 						:disabled="multiple"
 						@click="cancelAuthUserAll"
 						v-hasPermi="['system:role:remove']"
@@ -136,7 +145,7 @@ getList();
 					<el-button
 						type="warning"
 						plain
-						icon="Close"
+						:icon="Close"
 						@click="handleClose"
 					>关闭</el-button>
 				</el-col>
@@ -161,7 +170,7 @@ getList();
 				</el-table-column>
 				<el-table-column label="操作" align="center" class-name="small-padding fixed-width">
 					<template #default="scope">
-						<el-button link type="primary" icon="CircleClose" @click="cancelAuthUser(scope.row)" v-hasPermi="['system:role:remove']">取消授权</el-button>
+						<el-button link type="primary" :icon="CircleClose" @click="cancelAuthUser(scope.row)" v-hasPermi="['system:role:remove']">取消授权</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

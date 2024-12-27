@@ -266,15 +266,15 @@ function submitForm() {
 		if (valid) {
 			if (form.value.roleId != undefined) {
 				form.value.menuIds = getMenuAllCheckedKeys();
-				updateRole(form.value).then(response => {
+				updateRole(form.value).then(() => {
 					ElMessage.success("修改成功");
 					open.value = false;
 					getList();
 				});
 			} else {
 				form.value.menuIds = getMenuAllCheckedKeys();
-				addRole(form.value).then(response => {
-					ElMessage.success("新增成功");
+				addRole(form.value).then(() => {
+					ElMessage.success('新增成功')
 					open.value = false;
 					getList();
 				});

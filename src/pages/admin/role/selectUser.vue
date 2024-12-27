@@ -54,7 +54,7 @@
       <template #footer>
          <div class="dialog-footer">
             <el-button type="primary" @click="handleSelectUser">确 定</el-button>
-            <el-button @click="visible = false">取 消</el-button>
+            <el-button @click="visible = false">取 消1</el-button>
          </div>
       </template>
    </el-dialog>
@@ -127,9 +127,10 @@ function handleSelectUser() {
     ElMessage.error("请选择要分配的用户");
     return;
   }
+
   authUserSelectAll({ roleId: roleId, userIds: uIds }).then(res => {
     ElMessage.success(res.msg);
-    if (res.code === 200) {
+    if (res.code === 0) {
       visible.value = false;
       emit("ok");
     }

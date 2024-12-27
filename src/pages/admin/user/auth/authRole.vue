@@ -4,6 +4,7 @@ import {
 } from '~/api/admin-user'
 import type * as ep from 'element-plus'
 import {parseTime} from "../../../../utils/common";
+let router = useRouter();
 const roleRef = ref<InstanceType<typeof ep.ElTable>>()
 const route = useRoute();
 const loading = ref(true);
@@ -20,7 +21,7 @@ const form = ref({
 
 /** 单击选中行数据 */
 function clickRow(row) {
-	roleRef.value?.toggleRowSelection(row, false);
+	roleRef.value?.toggleRowSelection(row);
 };
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
@@ -32,9 +33,8 @@ function getRowKey(row) {
 };
 /** 关闭按钮 */
 function close() {
-	// const obj = { path: "/system/user" };
-	// proxy.$tab.closeOpenPage(obj);
-};
+	router.push('/admin/user-manager')
+}
 /** 提交按钮 */
 function submitForm() {
 	const userId = form.value.userId;
@@ -56,7 +56,7 @@ function submitForm() {
 			nextTick(() => {
 				roles.value.forEach(row => {
 					if (row.flag) {
-						roleRef.value?.toggleRowSelection(row, false);
+						roleRef.value?.toggleRowSelection(row);
 					}
 				});
 			});

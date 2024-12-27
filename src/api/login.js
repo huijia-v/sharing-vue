@@ -40,3 +40,15 @@ export const checkLoginReq = () => {
         method: "get",
     })
 }
+
+// 添加注册请求
+export const registerReq = (data) => {
+    return axios({
+        url: '/admin/register',
+        method: 'post',
+        data
+        // headers: {
+        //     'Content-Type': 'application/json'
+        // }
+    })
+}

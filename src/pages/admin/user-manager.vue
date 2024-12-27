@@ -58,7 +58,7 @@
 							</el-form-item>
 							<el-form-item>
 								<el-button type="primary" :icon="Search" @click="handleQuery"
-									>搜索
+								>搜索
 								</el-button>
 								<el-button :icon="Refresh" @click="resetQuery">重置</el-button>
 							</el-form-item>
@@ -72,7 +72,7 @@
 					<el-row :gutter="10">
 						<el-col :span="1.5">
 							<el-button type="primary" plain :icon="Plus" @click="handleAdd()"
-								>新增
+							>新增
 							</el-button>
 						</el-col>
 						<el-col :span="1.5">
@@ -97,22 +97,13 @@
 								删除
 							</el-button>
 						</el-col>
-												<el-col :span="1.5">
-													<el-dropdown class="mt-[1px]">
-														<el-button plain type="info">
-															更多
-															<el-icon class="el-icon--right">
-																<arrow-down/>
-															</el-icon>
-														</el-button>
-													</el-dropdown>
-												</el-col>
-												<right-toolbar
-													v-model:showSearch="showSearch"
-													:columns="columns"
-													:search="true"
-													@queryTable="getList"
-												></right-toolbar>
+
+						<right-toolbar
+							v-model:showSearch="showSearch"
+							:columns="columns"
+							:search="true"
+							@queryTable="getList"
+						></right-toolbar>
 					</el-row>
 				</template>
 
@@ -121,7 +112,7 @@
 					:data="userList"
 					@selection-change="handleSelectionChange"
 				>
-					<el-table-column type="selection" width="50" align="center" />
+					<el-table-column type="selection" width="50" align="center"/>
 					<el-table-column
 						v-if="columns[0].visible"
 						key="userId"
@@ -129,6 +120,22 @@
 						align="center"
 						prop="userId"
 					/>
+					<el-table-column
+						v-if="columns[7].visible"
+						key="avatar"
+						label="头像"
+						align="center"
+						width="100"
+					>
+						<template #default="scope">
+							<el-avatar
+								:size="40"
+								:src="scope.row.avatar || defaultAvatar"
+								@error="() => true"
+							>
+							</el-avatar>
+						</template>
+					</el-table-column>
 					<el-table-column
 						v-if="columns[1].visible"
 						key="userName"
@@ -180,6 +187,7 @@
 							<span>{{ scope.row.createTime }}</span>
 						</template>
 					</el-table-column>
+
 
 					<el-table-column
 						label="操作"
@@ -267,6 +275,25 @@
 					label-width="80px"
 				>
 					<el-row>
+						<el-col :span="24">
+							<el-form-item label="头像" prop="avatar">
+								<el-upload
+									class="avatar-uploader"
+									:action="uploadUrl"
+									:show-file-list="false"
+									:on-success="handleAvatarSuccess"
+									:before-upload="beforeAvatarUpload"
+									:headers="uploadHeaders"
+								>
+									<img v-if="form.avatar" :src="form.avatar" class="avatar"/>
+									<el-icon v-else class="avatar-uploader-icon">
+										<Plus/>
+									</el-icon>
+								</el-upload>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
 						<el-col :span="12">
 							<el-form-item label="用户昵称" prop="nickName">
 								<el-input
@@ -347,7 +374,7 @@
 										v-for="dict in sys_normal_disable"
 										:key="dict.value"
 										:label="dict.value"
-										>{{ dict.label }}
+									>{{ dict.label }}
 									</el-radio>
 								</el-radio-group>
 							</el-form-item>
@@ -403,16 +430,16 @@ import {
 	resetPwd,
 	addUser,
 } from '~/api/admin-user'
-import { to } from 'await-to-js'
+import {to} from 'await-to-js'
 import type * as ep from 'element-plus'
-import { addDateRange } from '~/composables/admin/user/userTool'
+import {addDateRange} from '~/composables/admin/user/userTool'
 import {
 	RoleVO,
 	UserForm,
 	UserVO,
 	FieldOption,
 } from '~/composables/admin/user/userTypes'
-import { router } from '~/modules/router'
+import {router} from '~/modules/router'
 import {
 	Delete,
 	Edit,
@@ -422,6 +449,8 @@ import {
 	Refresh,
 	Plus,
 } from '@element-plus/icons-vue'
+import defaultAvatar from '~/assets/image/avator.png'
+
 const loading = ref(false)
 const ids = ref<Array<number | string>>([])
 const showSearch = ref(true)
@@ -497,11 +526,12 @@ const initFormData: UserForm = {
 	status: '0',
 	remark: '',
 	postIds: [],
-	roleIds: []
+	roleIds: [],
+	avatar: '',
 }
 /** 重置操作表单 */
 const reset = () => {
-	form.value = { ...initFormData }
+	form.value = {...initFormData}
 	userFormRef.value?.resetFields()
 }
 const dialog = reactive({
@@ -521,10 +551,11 @@ const form = ref({
 	remark: '',
 	postIds: [],
 	roleIds: [],
+	avatar: '',
 })
 const rules = ref({
 	userName: [
-		{ required: true, message: '用户名称不能为空', trigger: 'blur' },
+		{required: true, message: '用户名称不能为空', trigger: 'blur'},
 		{
 			min: 2,
 			max: 20,
@@ -532,9 +563,9 @@ const rules = ref({
 			trigger: 'blur',
 		},
 	],
-	nickName: [{ required: true, message: '用户昵称不能为空', trigger: 'blur' }],
+	nickName: [{required: true, message: '用户昵称不能为空', trigger: 'blur'}],
 	password: [
-		{ required: true, message: '用户密码不能为空', trigger: 'blur' },
+		{required: true, message: '用户密码不能为空', trigger: 'blur'},
 		{
 			min: 5,
 			max: 20,
@@ -581,13 +612,14 @@ const sys_normal_disable = ref([
 
 // 列显隐信息
 const columns = ref<FieldOption[]>([
-	{ key: 0, label: `用户编号`, visible: false, children: [] },
-	{ key: 1, label: `用户名称`, visible: true, children: [] },
-	{ key: 2, label: `用户昵称`, visible: true, children: [] },
-	{ key: 3, label: `部门`, visible: true, children: [] },
-	{ key: 4, label: `手机号码`, visible: true, children: [] },
-	{ key: 5, label: `状态`, visible: true, children: [] },
-	{ key: 6, label: `创建时间`, visible: true, children: [] },
+	{key: 0, label: `用户编号`, visible: false, children: []},
+	{key: 1, label: `用户名称`, visible: true, children: []},
+	{key: 2, label: `用户昵称`, visible: true, children: []},
+	{key: 3, label: `部门`, visible: true, children: []},
+	{key: 4, label: `手机号码`, visible: true, children: []},
+	{key: 5, label: `状态`, visible: true, children: []},
+	{key: 6, label: `创建时间`, visible: true, children: []},
+	{key: 7, label: `头像`, visible: true, children: []},
 ])
 
 const roleOptions = ref<RoleVO[]>([])
@@ -597,7 +629,7 @@ const multiple = ref(true)
 /** 新增按钮操作 */
 const handleAdd = async () => {
 	reset()
-	const { data } = await getUser()
+	const {data} = await getUser()
 	dialog.visible = true
 	dialog.title = '新增用户'
 	roleOptions.value = data.roles
@@ -608,7 +640,7 @@ const handleAdd = async () => {
 const handleUpdate = async (row?: UserForm) => {
 	reset()
 	const userId = row?.userId || ids.value[0]
-	const { data } = await getUser(userId)
+	const {data} = await getUser(userId)
 	dialog.visible = true
 	dialog.title = '修改用户'
 	Object.assign(form.value, data.user)
@@ -664,7 +696,7 @@ const resetForm = () => {
 /** 跳转角色分配 */
 const handleAuthRole = (row: UserVO) => {
 	const userId = row.userId
-	router.push('/admin/role-manager/role/' + userId)
+	router.push('/admin/user/auth/' + userId)
 }
 
 /** 重置密码按钮操作 */
@@ -683,6 +715,31 @@ const handleResetPwd = async (row: UserVO) => {
 		ElMessage.success('修改成功，新密码是：' + res.value)
 	}
 }
+
+const uploadUrl = '/api/file/upload' // 替换为实际的上传接口
+const uploadHeaders = computed(() => ({
+	Authorization: localStorage.getItem('sharing-token')
+}))
+
+const handleAvatarSuccess = (response: any, file: File) => {
+	form.value.avatar = response.data // 假设返回的数据中包含文件URL
+}
+
+const beforeAvatarUpload = (file: File) => {
+	const isImage = file.type.startsWith('image/')
+	const isLt2M = file.size / 1024 / 1024 < 2
+
+	if (!isImage) {
+		ElMessage.error('上传头像图片只能是图片格式!')
+		return false
+	}
+	if (!isLt2M) {
+		ElMessage.error('上传头像图片大小不能超过 2MB!')
+		return false
+	}
+	return true
+}
+
 onMounted(() => {
 	getList() // 初始化列表数据
 	initPassword.value = 123456
@@ -698,3 +755,37 @@ meta:
  layout: admin
  name: 用户管理
 </route>
+
+<style scoped>
+.avatar-uploader {
+	text-align: center;
+}
+
+.avatar-uploader .el-upload {
+	border: 1px dashed var(--el-border-color);
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+	border-color: var(--el-color-primary);
+}
+
+.avatar-uploader-icon {
+	font-size: 28px;
+	color: #8c939d;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+}
+
+.avatar {
+	width: 100px;
+	height: 100px;
+	display: block;
+}
+</style>

@@ -32,33 +32,33 @@ instance.interceptors.request.use(
 			config.params = {}
 			config.url = url
 		}
-		if (config.method === 'post' || config.method === 'put') {
-			const requestObj = {
-				url: config.url,
-				data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
-				time: new Date().getTime()
-			}
-			const sessionObj = cache.session.getJSON('sessionObj')
-			if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
-				cache.session.setJSON('sessionObj', requestObj)
-			} else {
-				const s_url = sessionObj.url;                // 请求地址
-				const s_data = sessionObj.data;              // 请求数据
-				const s_time = sessionObj.time;              // 请求时间
-				const interval = 1000;                       // 间隔时间(ms)，小于此时间视为重复提交
-				if (
-					s_data === requestObj.data &&
-					requestObj.time - s_time < interval &&
-					s_url === requestObj.url
-				) {
-					const message = '数据正在处理，请勿重复提交';
-					console.warn(`[${s_url}]: ` + message)
-					return Promise.reject(new Error(message))
-				} else {
-					cache.session.setJSON('sessionObj', requestObj)
-				}
-			}
-		}
+		// if (config.method === 'post' || config.method === 'put') {
+		// 	const requestObj = {
+		// 		url: config.url,
+		// 		data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
+		// 		time: new Date().getTime()
+		// 	}
+		// 	const sessionObj = cache.session.getJSON('sessionObj')
+		// 	if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
+		// 		cache.session.setJSON('sessionObj', requestObj)
+		// 	} else {
+		// 		const s_url = sessionObj.url;                // 请求地址
+		// 		const s_data = sessionObj.data;              // 请求数据
+		// 		const s_time = sessionObj.time;              // 请求时间
+		// 		const interval = 1000;                       // 间隔时间(ms)，小于此时间视为重复提交
+		// 		if (
+		// 			s_data === requestObj.data &&
+		// 			requestObj.time - s_time < interval &&
+		// 			s_url === requestObj.url
+		// 		) {
+		// 			const message = '数据正在处理，请勿重复提交';
+		// 			console.warn(`[${s_url}]: ` + message)
+		// 			return Promise.reject(new Error(message))
+		// 		} else {
+		// 			cache.session.setJSON('sessionObj', requestObj)
+		// 		}
+		// 	}
+		// }
 		return config
 	},
 	(error) =>

@@ -36,6 +36,8 @@
 								<el-tag type="">{{storage.type.description}}</el-tag>
 								<el-tag type="success" @click="switchEnableStatus(storage)" v-show="storage.enable">启用</el-tag>
 								<el-tag type="danger" @click="switchEnableStatus(storage)" v-show="!storage.enable">停用</el-tag>
+								<el-tag type="danger"  v-show="!storage.visable">私有</el-tag>
+								<el-tag type="success"  v-show="storage.visable">公共</el-tag>
 								<el-tag type="success" v-show="storage.enableCache">缓存</el-tag>
 
 								<el-popover

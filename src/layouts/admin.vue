@@ -40,9 +40,9 @@
 
             <template #reference>
               <div @click="common.openPage('/')" class="cursor-pointer flex-shrink-0 flex items-center">
-                <img class="block lg:hidden h-8 w-auto" src="../assets/icons/zfile-basic.svg"
+                <img class="block lg:hidden h-15 w-auto" src="../assets/icons/logo-sharing2.jpg"
                      alt="Workflow"/>
-                <img class="hidden lg:block h-8 w-auto" src="../assets/icons/zfile-horizontal.svg"
+                <img class="hidden lg:block h-14 w-auto" src="../assets/icons/logo-sharing2.jpg"
                      alt="Workflow"/>
                 <el-badge :is-dot="githubLatestInfo?.data?.tag_name && common.version !== githubLatestInfo?.data?.tag_name" class="hidden lg:block text-sm font-bold word ml-1 tracking-wider">
                   {{common.version}}
